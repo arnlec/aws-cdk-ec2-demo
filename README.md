@@ -28,3 +28,12 @@ Use the below command to get the private key value:
 
     aws secretsmanager get-secret-value --secret-id ec2-ssh-key/Ec2DemoStackKey/private --query SecretString --output text
 
+### Ansible 
+
+Private key must be save in private_key.pem file.
+
+To check that ec2 instances are available use the below commands:
+
+    chmod 600 private_key.pem
+    cd ansible
+    ansible -i hosts -m ping all
