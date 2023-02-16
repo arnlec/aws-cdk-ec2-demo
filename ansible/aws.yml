@@ -1,0 +1,37 @@
+---
+# This playbook allows to start/stop EC2 instances
+# Usage:
+#     ansible-playbook aws.yml --tags start/stop
+- hosts: localhost
+  connection: local
+  become: false
+  vars:
+    app_name: ec2-demo
+     
+  tasks:
+    - name: start ec2 instances
+      amazon.aws.ec2_instance:
+        state: started
+        filters:
+          tag:cdk-app: "{{app_name}}"
+      tags: start
+    
+    - name: stop ec2 instances
+      amazon.aws.ec2_instance:
+        state: stopped
+        filters:
+          instance-state-name: running
+          tag:cdk-app: "{{app_name}}"
+      tags: stop
+
+    - name: ec2 instance info
+      ec2_instance_info:
+        filters:
+          instance-state-name:  running
+          tag:cdk-app: "{{app_name}}"
+      register: ec2
+      tags: start
+
+    - debug:  
+        msg: "{{ec2.instances | map(attribute='public_dns_name') | flatten }}"
+      tags: start

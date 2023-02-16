@@ -35,6 +35,7 @@ export class Ec2DemoStack extends cdk.Stack {
         }
       }
     );
+    bastion
     bastion.allowSshAccessFrom(ec2.Peer.anyIpv4());
     bastion.instance.instance.addPropertyOverride('KeyName',key.keyPairName);
     new cdk.CfnOutput(this,'BastionId',{ value: bastion.instanceId});
