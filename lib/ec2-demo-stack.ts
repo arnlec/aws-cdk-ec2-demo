@@ -10,7 +10,7 @@ const vpcId='vpc-1d4ad478';
 const availabilityZone = "eu-west-1a";
 const privateSubnetCidrBlock = "172.31.100.0/24";
 const squidPort=3128;
-const amiId='ami-08be94d0e177189de'; // Centos Stream 9 / eu-west-1
+const amiId='ami-07c03c1903dca264a'; // Centos Stream 9 / eu-west-1
 
 export class Ec2DemoStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -23,7 +23,7 @@ export class Ec2DemoStack extends cdk.Stack {
       this,
       `${ id }key`,
       {
-        name: `${ id }Key`,
+        keyPairName: `${ id }Key`,
         description: `Key pair for bastion of stack ${ id }`
     });
     new cdk.CfnOutput(this,'BastionKeyName',{ value: key.keyPairName });
