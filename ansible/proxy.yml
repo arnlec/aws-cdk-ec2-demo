@@ -1,0 +1,26 @@
+---
+# This playbook install squid proxy
+# and configure yum on worker to use it
+
+- hosts: proxy
+  become: yes
+  tasks:
+    - name: install squid
+      yum:
+        name: squid
+        state: present
+    - name: start squid service
+      systemd:
+        name: squid
+        enabled: true
+        state: started
+
+- hosts: worker
+  become: yes
+  tasks:
+    - name: enable yum under http proxy
+      lineinfile:
+        path: /etc/yum.conf
+        regexp: '^proxy='
+        line: proxy=http://{{proxy_ip}}:3128
+        state: present
