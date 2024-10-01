@@ -19,8 +19,7 @@ export class Ec2DemoStack extends cdk.Stack {
       this,
       `${ id }key`,
       {
-        name: `${ id }Key`,
-        description: `Key pair for bastion of stack ${ id }`
+        keyPairName: `${ id }Key`
     });
     new cdk.CfnOutput(this,'BastionKeyName',{ value: key.keyPairName });
  
